@@ -47,6 +47,9 @@ module.exports = async (client, Discord, message) => {
     let cmd = args.shift().toLowerCase();
     //
     const command = client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd));
+    const log = client.channels.cache.get('966608233496207380');
+    log.send(`${message.author.username}: **${message.content}** in ${message.guild.name}`)
+        .catch(console.error);
     //
     if (command) command.execute(client, message, args, Discord, prefixProfile);
 }

@@ -6,7 +6,7 @@ const questions = questionsModule.questions;
 let isQuizActive = false;
 let isCorrectAnswerFound = false;
 let failedTriesParticipants = [];
-const prefixModel = require('../../database/models/prefixSchemaPermit.js');
+const prefixModel = require('../database/models/prefixSchemaPermit.js');
 
 
 module.exports = {
@@ -14,9 +14,10 @@ module.exports = {
     aliases: ["s"],
     description: '',
     async execute(client, message, args, Discord, prefixProfile) {
-        if (!message.channel.threads) {
-            return;
-        }
+        // If message user typed command in a thread
+        if (!message.channel.threads) return;
+
+        // If there is already another quiz active
         if (isQuizActive) {
             const anotherQuestionPlaying = new Discord.MessageEmbed()
                 .setTitle(`هناك جولة أخرى قيد اللعب`)
@@ -43,9 +44,6 @@ module.exports = {
                     if (!failedTriesParticipants.includes(collected.author)) {
                         if (userAnswer === currentQuestion?.answers.join('')) {
                             isCorrectAnswerFound = true;
-
-
-
                             let latest_scores = prefixProfile.scores;
                             if (!latest_scores.some(user => user.id === collected.author.id)) {
                                 latest_scores.push({
@@ -66,8 +64,6 @@ module.exports = {
                                 { serverID: message.guild.id },
                                 { scores: latest_scores }
                             ).catch(console.error);
-
-
 
                             collected.react('✅')
                                 .catch(err => console.log(err));

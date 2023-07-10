@@ -1,10 +1,10 @@
 const { Client } = require('discord.js');
 const fs = require('fs');
 module.exports = (client, Discord) => {
-    const load_dir = (dirs) => {
-        const command_files = fs.readdirSync(`./commands/${dirs}`).filter(file => file.endsWith('.js'));
+    const load_cmds = () => {
+        const command_files = fs.readdirSync(`./commands/`).filter(file => file.endsWith('.js'));
         for (const file of command_files) {
-            const command = require(`../commands/${dirs}/${file}`);
+            const command = require(`../commands//${file}`);
             if (command.name) {
                 client.commands.set(command.name, command);
             } else {
@@ -12,5 +12,5 @@ module.exports = (client, Discord) => {
             }
         }
     }
-    ['tempy'].forEach(e => load_dir(e));
+    load_cmds();
 }

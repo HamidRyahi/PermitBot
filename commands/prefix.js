@@ -1,4 +1,4 @@
-const prefixModel = require('../../database/models/prefixSchemaPermit.js');
+const prefixModel = require('../database/models/prefixSchemaPermit.js');
 module.exports = {
     name: 'prefix',
     description: 'This command for viewing and changing the prefix of the bot',
